@@ -8,7 +8,9 @@ cmake_minimum_required(VERSION 3.15)
 include(CMakeToolsHelpers OPTIONAL)
 include(ExternalProject)
 
-set(CMAKE_VERBOSE_MAKEFILE 1)  # debug helper
+if (BUILD_VERBOSE)
+    set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE) # debug helper
+endif()
 
 # the following prevents launchin a build in the source tree
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
@@ -499,10 +501,17 @@ else()
 endif()
 
 
-if(API_System.Devices.Dac)
-    set(HAL_USE_DAC_OPTION TRUE CACHE INTERNAL "HAL DAC for System.Devices.Dac")
+if(API_System.Device.Dac)
+    set(HAL_USE_DAC_OPTION TRUE CACHE INTERNAL "HAL DAC for System.Device.Dac")
 else()
-    set(HAL_USE_DAC_OPTION FALSE CACHE INTERNAL "HAL DAC for System.Devices.Dac")
+    set(HAL_USE_DAC_OPTION FALSE CACHE INTERNAL "HAL DAC for System.Device.Dac")
+endif()
+
+
+if(API_System.Device.Gpio)
+    set(HAL_USE_GPIO_OPTION TRUE CACHE INTERNAL "HAL GPIO for System.Device.Gpio")
+else()
+    set(HAL_USE_GPIO_OPTION FALSE CACHE INTERNAL "HAL GPIO for System.Device.Gpio")
 endif()
 
 
@@ -547,6 +556,15 @@ else()
     set(HAL_USE_STM32_ONEWIRE_OPTION FALSE CACHE INTERNAL "HAL STM32_ONEWIRE for nanoFramework.Devices.OneWire")
 endif()
 
+#################################################################################
+#  Option to include the graphics bitmap primitives
+#################################################################################
+if(API_nanoFramework.Graphics)
+    set(NANOCLR_GRAPHICS TRUE CACHE INTERNAL "Graphics Support")
+else()
+    set(NANOCLR_GRAPHICS FALSE CACHE INTERNAL "No Graphics Support")
+endif()
+
 if(NF_FEATURE_HAS_SDCARD)
     set(HAL_USE_SDC_OPTION TRUE CACHE INTERNAL "HAL SDC for NF_FEATURE_HAS_SDCARD")
 else()
@@ -566,6 +584,7 @@ endif()
 # include nanoFramework.Runtime.Events API
 if( API_nanoFramework.Devices.OneWire OR 
     API_System.Net OR
+    API_System.Device.Gpio OR
     API_Windows.Devices.Gpio OR
     API_Windows.Devices.SerialCommunication OR
     API_Windows.Networking.Sockets OR

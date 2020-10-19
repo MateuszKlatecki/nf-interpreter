@@ -12,6 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
+//  move this to sys_dev_gpio_native_System_Device_Gpio_GpioPin when Windows.Devices.Gpio is removed
 void Gpio_Interupt_ISR(GPIO_PIN pinNumber, bool pinState)
 {
     // if handle registered then post a managed event with the current pin reading

@@ -17,7 +17,7 @@ set(NANOBOOTER_PROJECT_NAME "nanoBooter")
 set(NANOCLR_PROJECT_NAME "nanoCLR")
 
 find_package(BuildUtils REQUIRED)
-find_package(CHIBIOS REQUIRED)
+find_package(ChibiOS REQUIRED)
 find_package(ChibiOSnfOverlay REQUIRED)
 find_package(WireProtocol REQUIRED)
 
@@ -141,6 +141,8 @@ add_executable(
 
     # sources for nanoFramework APIs
     ${TARGET_NANO_APIS_SOURCES}
+
+    ${Graphics_Sources}
 )
 
 # add dependency from ChibiOS (this is required to make sure the ChibiOS repo is downloaded before the build starts)
@@ -219,6 +221,8 @@ target_include_directories(${NANOCLR_PROJECT_NAME}.elf PUBLIC
 
     # includes for SPIFFS
     ${SPIFFS_INCLUDE_DIRS}
+
+    ${Graphics_Includes}
 )
 
 # set compiler options
